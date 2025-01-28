@@ -1,47 +1,63 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+import NumberInput from './components/NumberInput.vue';
+import OperationSelect from './components/OperationSelect.vue';
+import ResultDisplay from './components/ResultDisplay.vue';
+
+export default {
+  components: {
+    NumberInput,
+    OperationSelect,
+    ResultDisplay,
+  },
+  data() {
+    return {
+      number1: 0,
+      number2: 0,
+      operation: "add",
+    };
+  },
+  computed: {
+    result() {
+      const { number1, number2, operation } = this;
+      switch (operation) {
+        case "add":
+          return number1 + number2;
+        case "subtract":
+          return number1 - number2;
+        case "multiply":
+          return number1 * number2;
+        case "divide":
+          return number2 !== 0 ? number1 / number2 : "Erro (divisão por 0)";
+        default:
+          return 0;
+      }
+    },
+  },
+};
 </script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container mt-5">
+    <h1 class="text-center">Calculadora Aritmética</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <NumberInput
+          v-model="number1"
+          placeholder="Número 1"
+        />
+        <OperationSelect v-model="operation" />
+        <NumberInput
+          v-model="number2"
+          placeholder="Número 2"
+        />
+        <ResultDisplay :result="result" />
+      </div>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style>
+h1 {
+  font-family: Arial, sans-serif;
 }
 </style>
